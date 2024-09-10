@@ -12,8 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          echo ${{ toJson(github) }} > context-${{ github.sha }}.json
+      - name: Dump Github Context
+        env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo $GITHUB_CONTEXT > context-${{ github.sha }}.json
 
       - uses: EndBug/add-and-commit@v9
         if: always()

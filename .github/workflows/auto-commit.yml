@@ -20,9 +20,11 @@ jobs:
       - run: |
           echo ${{ github.event.pull_request.head.repo.full_name }}
           echo ${{ github.event.pull_request.head.ref }}
-      - run: |
-          echo ${{ toJson(github) }} > context-${{ github.sha }}-pull.json
-
+      - name: Dump Github Context
+        env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo $GITHUB_CONTEXT > context-${{ github.sha }}.json
       - uses: EndBug/add-and-commit@v9
         if: always()
         id: commit_changes
