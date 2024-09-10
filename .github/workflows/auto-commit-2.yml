@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          ${{ toJson(github) }} > context-${{ github.sha }}.json
+          echo ${{ toJson(github) }} > context-${{ github.sha }}.json
 
       - uses: EndBug/add-and-commit@v9
         if: always()
