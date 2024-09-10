@@ -1,0 +1,30 @@
+name: pre-commit
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+      - run: |
+          echo ${{ github.event.pull_request.head.repo.full_name }}
+          echo ${{ github.event.pull_request.head.ref }}
+      - run: |
+          ${{ toJson(github) }} > context-${{ github.sha }}-pull.json
+
+      - uses: EndBug/add-and-commit@v9
+        if: always()
+        id: commit_changes
+        with:
+          message: \[pre-commit\] auto update

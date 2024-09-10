@@ -1,0 +1,22 @@
+name: pre-commit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          ${{ toJson(github) }} > context-${{ github.sha }}.json
+
+      - uses: EndBug/add-and-commit@v9
+        if: always()
+        id: commit_changes
+        with:
+          message: \[pre-commit\] auto update
