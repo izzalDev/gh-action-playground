@@ -12,7 +12,8 @@ jobs:
         env:
             GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          echo $GITHUB_CONTEXT > context-${{ github.sha }}.json
+          echo $GITHUB_CONTEXT 
+          echo "Mari Kita Coba Lagi" > context-${{ github.sha }}.json
 
       - uses: EndBug/add-and-commit@v9
         if: always()
