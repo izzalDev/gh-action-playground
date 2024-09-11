@@ -27,7 +27,7 @@ jobs:
         id: auto_commit
         if: always()
       - name: Approve pull request
-        if: steps.auto_commit.conclusion == 'failure'
+        if: failure() && steps.auto_commit.conclusion == 'failure'
         uses: andrewmusgrave/automatic-pull-request-review@0.0.5
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
