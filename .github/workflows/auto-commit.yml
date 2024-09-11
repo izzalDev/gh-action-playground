@@ -33,3 +33,8 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           event: REQUEST_CHANGES
           body: 'Thank you dependabot 🎊'
+      - uses: EndBug/add-and-commit@v9
+        if: always()
+        id: commit_changes
+        with:
+          message: \[pre-commit\] auto update
