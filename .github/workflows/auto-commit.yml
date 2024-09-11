@@ -24,4 +24,12 @@ jobs:
         run: |
           echo "mari kita coba pull" > context-${{ github.sha }}.json
       - uses: stefanzweifel/git-auto-commit-action@v5
+        id: auto_commit
         if: always()
+      - name: Approve pull request
+        if: steps.auto_commit.conclusion == 'failure'
+        uses: andrewmusgrave/automatic-pull-request-review@0.0.5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          event: REQUEST_CHANGES
+          body: 'Thank you dependabot 🎊'
