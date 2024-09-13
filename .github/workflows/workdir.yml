@@ -1,0 +1,27 @@
+name: workdir
+on:
+  workflow_dispatch:
+
+jobs:
+  pre-commit:
+    runs-on: windows-latest
+    steps:
+      - name: Check if directory exists
+        run: |
+          if [ ! -d "./your-directory" ]; then
+            echo "Directory does not exist. Exiting..."
+            exit 0
+          fi
+      - uses: actions/checkout@v4
+      - name: Dump Github Context
+        env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo $GITHUB_CONTEXT 
+          echo "Mari Kita Coba Lagi" > context-${{ github.sha }}.json
+
+      - uses: EndBug/add-and-commit@v9
+        if: always()
+        id: commit_changes
+        with:
+          message: \[pre-commit\] auto update
