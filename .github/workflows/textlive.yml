@@ -1,0 +1,17 @@
+name: texlive default package
+on:
+    workflow_dispatch:
+
+jobs:
+    check-package:
+        runs-on: ubuntu-latest
+        steps:
+          - name: setup texlive
+            uses: teatimeguest/setup-texlive-action@v3
+          - name: console log package
+            run: |
+                tlmgr list --only-installed --data name >> texlive.txt
+          - name: upload artifact
+            uses: actions/upload-artifact@v4
+            with:
+              path: ./texlive.txt
